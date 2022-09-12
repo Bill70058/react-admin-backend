@@ -2,7 +2,7 @@
  * @Author: lzr lzr@email.com
  * @Date: 2022-09-11 14:55:28
  * @LastEditors: lzr lzr@email.com
- * @LastEditTime: 2022-09-11 15:27:09
+ * @LastEditTime: 2022-09-12 21:03:27
  * @FilePath: /react-admin-backend/routes/userInfo.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -55,10 +55,34 @@ router.route('/query').post((req, res) => {
     if (err) {
       res.json({
         code: 400,
-        msg: err
+        msg
       })
     }
   });
+})
+
+router.route('/updateInfo').put((req, res) => {
+  const {
+    username
+  } = req.body
+  let setObj = {}
+  if (req.body.newName) {
+    setObj.newName = req.body.newName
+  }
+  if (req.body.route) {
+    setObj.route = req.body.route
+  }
+
+  UserInfo.findOneAndUpdate({
+      username
+    }, {
+      $set: setObj
+    }).then(() => {
+      res.json(template.msgTemplate({
+        msg: '用户信息更新成功'
+      }))
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
 })
 
 module.exports = router;
