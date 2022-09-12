@@ -2,7 +2,7 @@
  * @Author: lzr lzr@email.com
  * @Date: 2022-06-12 20:42:37
  * @LastEditors: lzr lzr@email.com
- * @LastEditTime: 2022-06-12 21:48:04
+ * @LastEditTime: 2022-09-11 15:32:54
  * @FilePath: /admin-backend/routes/login.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,6 +10,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require('../models/user.model')
+const UserInfo = require('../models/userInfo.model')
 const {
   generateToken
 } = require("../utils/authorization");
@@ -36,13 +37,25 @@ router.post("/", (req, res) => {
           username,
           password
         });
-        res.json({
-          code: 200,
-          msg: "登录成功",
-          data: {
-            token
-          },
-        });
+        UserInfo.find({
+            username
+          }).then(info => {
+            res.json({
+              code: 200,
+              msg: "登录成功",
+              data: {
+                token,
+                route: info[0].route,
+                username
+              },
+            });
+          })
+          .catch(err => {
+            res.json({
+              code: 200,
+              msg: "登录失败" + err
+            });
+          })
       }
     })
     .catch(err => res.status(400).json('Error' + err))
