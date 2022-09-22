@@ -1,12 +1,36 @@
 const router = require('express').Router();
-
 let User = require('../models/user.model');
 const template = require('../utils/msgTemplate')
 
 router.route('/').get((req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
+  if (!req.url.includes('?')) {
+    User.find()
+      .then(users => res.json(users))
+      .catch(err => res.status(400).json('Error: ' + err));
+  }
+  // 分页查询：可搜索Id
+  let queryData = {}
+  let {pageNum, pageSize, id} =  req.query
+  pageNum = Number(pageNum) || 1
+  pageSize = Number(pageSize) || 10
+  if (id) {
+    queryData._id = id
+  }
+  User.find(queryData).skip((pageNum - 1)*pageSize).limit(pageSize)
+      .then(queryUsers => {
+        User.find()
+        .then(users => res.json(template.msgTemplate({
+          msg: '查询成功',
+          data: {
+            pageNum: pageNum,
+            pageSize: pageSize,
+            total: users.length,
+            users: queryUsers
+          }
+        })))
+        .catch(err => res.status(400).json('用户查询失败: ' + err));
+      })
+      .catch(err => res.status(400).json('用户查询失败: ' + err));
 });
 
 router.route('/').post((req, res) => {
