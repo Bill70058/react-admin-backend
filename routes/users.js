@@ -5,7 +5,10 @@ const template = require('../utils/msgTemplate')
 router.route('/').get((req, res) => {
   if (!req.url.includes('?')) {
     User.find()
-      .then(users => res.json(users))
+      .then(users => res.json(template.msgTemplate({
+        msg: '查询成功',
+        data: users
+      })))
       .catch(err => res.status(400).json('Error: ' + err));
   }
   // 分页查询：可搜索Id
@@ -90,25 +93,14 @@ router.route('/updateById').put((req, res) => {
     .then(() => res.json(template.msgTemplate({
       msg: '用户更新成功'
     })))
-  // let User = require('../models/user.model');
-  let User = require('../models/user.model');
+    .catch(err => res.status(400).json('Error: ' + err));
+})
 
-  router.route('/').get((req, res) => {
-    User.find()
-      .then(users => res.json(users))
-      .catch(err => res.status(400).json('Error: ' + err));
-  });
-
-  router.route('/add').post((req, res) => {
-    const username = req.body.username;
-
-    const newUser = new User({
-      username
-    });
-
-    newUser.save()
-      .then(() => res.json('User added!'))
-      .catch(err => res.status(400).json('Error: ' + err));
-  });
+router.route('/deleteById').delete((req, res) => {
+  const id = req.body.id
+  User.findByIdAndDelete(id).then(() => res.json(template.msgTemplate({
+    msg: '用户删除成功'
+  })))
+  .catch(err => res.status(400).json('Error: ' + err));
 })
 module.exports = router;
