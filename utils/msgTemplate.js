@@ -5,7 +5,7 @@ function msgTemplate(obj) {
     msg
   } = obj
   data = data || []
-  code = code || 0
+  code = code || 200
   msg = msg || '成功！'
   return {
     data,
