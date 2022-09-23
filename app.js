@@ -32,10 +32,10 @@ const routerList = [{
     url: '/api/login',
     router: require('./routes/login')
   },
-  // {
-  //   url: '/api/*',
-  //   router: require('./utils/authorization').verifyToken
-  // },
+  {
+    url: '/api/*',
+    router: require('./utils/authorization').verifyToken
+  },
   {
     url: '/api/users',
     router: require('./routes/users')

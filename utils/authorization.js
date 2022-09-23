@@ -6,9 +6,10 @@ const secretKey = "secretKey";
 module.exports.generateToken = function (payload) {
   const token =
     "Bearer " +
-    jwt.sign(payload, secretKey, {
-      expiresIn: 60 * 60,
-    });
+    jwt.sign({
+      exp: Math.floor(Date.now() / 1000) + (60 * 60),
+      payload
+    }, secretKey)
   return token;
 };
 
