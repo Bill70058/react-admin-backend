@@ -2,7 +2,7 @@
  * @Author: lzr lzr@email.com
  * @Date: 2022-08-28 15:35:19
  * @LastEditors: lzr lzr@email.com
- * @LastEditTime: 2022-09-11 15:10:19
+ * @LastEditTime: 2022-11-20 15:02:23
  * @FilePath: /react-admin-backend/app.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -32,10 +32,10 @@ const routerList = [{
     url: '/api/login',
     router: require('./routes/login')
   },
-  {
-    url: '/api/*',
-    router: require('./utils/authorization').verifyToken
-  },
+  // {
+  //   url: '/api/*',
+  //   router: require('./utils/authorization').verifyToken
+  // },
   {
     url: '/api/users',
     router: require('./routes/users')
@@ -43,6 +43,10 @@ const routerList = [{
   {
     url: '/api/userInfo',
     router: require('./routes/userInfo')
+  },
+  {
+    url: '/api/pages',
+    router: require('./routes/page')
   }
 ]
 console.log('---------router list----------')

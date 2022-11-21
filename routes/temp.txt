@@ -1,0 +1,20 @@
+// 如果map中没有该值，且当前值不为子节点则直接推入
+        if (typeof pageMap[item.id] == 'undefined' && typeof item.parentId == 'undefined') {
+          if (item.isLeaf) {
+            item.chindren = []
+          }
+          pageMap[item.id] = item
+        } else if (typeof item.isLeaf != 'undefined' && typeof item.parentId == 'undefined') {
+          // 如果当前节点为子节点，且父节点当前没遍历到，则以父节点id为占位，将当前节点推入父节点的childre属性中
+          pageMap[item.parentId] = {
+            children: [item]
+          }
+        } else if (typeof item.id != 'undefined' && typeof item.isLeaf != 'undefined') {
+          // 当前节点为父节点，且map中已有children的占位对象，则合并对象
+          let tempObj = Object.assign({}, item, pageMap[item.id])
+          pageMap[item.id] = tempObj
+        } else {
+          console.log('333')
+          // 如果当前节点为子节点且以存在父节点对象则直接推入children
+          pageMap[item.parentId].children.push(item)
+        }
