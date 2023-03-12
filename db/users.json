@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "630b2b254e7add185b93cc78",
+    "__v": "0",
+    "createdAt": "28/8/2022 08:45:25.891",
+    "password": "admin",
+    "updatedAt": "28/8/2022 08:45:25.891",
+    "username": "admin"
+  },
+  {
+    "_id": "632e9d46b903cfe7f36addd5",
+    "__v": "0",
+    "createdAt": "24/9/2022 06:01:42.317",
+    "password": "admin1",
+    "updatedAt": "24/9/2022 06:01:42.317",
+    "username": "admin1"
+  }
+]
